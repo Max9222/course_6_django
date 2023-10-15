@@ -18,7 +18,7 @@
                     {{ object.email }}
                 </p>
                 <div class="card-footer">
-                    <a href="" class="btn btn-outline-success">Отправить рассылку</a>
+                    <a href="{% url 'newsletter:create' object.pk %}" class="btn btn-outline-success">Отправить рассылку</a>
                 </div>
             </div>
         </div>
