@@ -4,6 +4,9 @@ from django.urls import reverse
 
 from main.models import Client
 from newsletter.models import Newsletter
+from newsletter.services import send_newsletter_email
+
+
 class NewsletterCreateView(CreateView):
     model = Newsletter
     fields = ('client', 'name', 'email', 'comment',)
@@ -16,3 +19,7 @@ class NewsletterCreateView(CreateView):
         context_data['client'] = get_object_or_404(Client, pk=self.kwargs.get('pk'))
         return context_data
 
+    def form_valid(self, form):
+        obj = form.save()
+        send_newsletter_email(obj)
+        return super().form_valid(form)
