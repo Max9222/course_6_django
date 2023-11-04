@@ -10,3 +10,7 @@ class ClientListView(ListView):
 
 class ClientDetailView(DetailView):
     model = Client
+    permission_required = 'main.view_product'
+
+class ClientCView(DetailView):
+    model = Client
