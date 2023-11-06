@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 
 from django.shortcuts import render, get_object_or_404
 
+from main.forms import ClientForm, MessageForm, MaillingForm
 from main.models import Client, Message, Mailling, Logs
 from main.services import send_mailling
 
@@ -17,12 +18,14 @@ class ClientDetailView(DetailView):
 
 class ClientCreateView(CreateView):
     model = Client
-    fields = ('fio', 'email', 'comment')
+    form_class = ClientForm
+    # fields = ('fio', 'email', 'comment')
     success_url = reverse_lazy('main:client_list')
 
 class ClientUpdateView(UpdateView):
     model = Client
-    fields = ('fio', 'email', 'comment')
+    form_class = ClientForm
+    # fields = ('fio', 'email', 'comment')
     success_url = reverse_lazy('main:client_list')
 
 class ClientDeleteView(DeleteView):
@@ -39,12 +42,14 @@ class MessageDetailView(DetailView):
 
 class MessageCreateView(CreateView):
     model = Message
-    fields = ('head', 'body')
+    form_class = MessageForm
+    # fields = ('head', 'body')
     success_url = reverse_lazy('main:message_list')
 
 class MessageUpdateView(UpdateView):
     model = Message
-    fields = ('head', 'body')
+    form_class = MessageForm
+    # fields = ('head', 'body')
     success_url = reverse_lazy('main:message_list')
 
 class MessageDeleteView(DeleteView):
@@ -62,7 +67,8 @@ class MaillingDetailView(DetailView):
 
 class MaillingCreateView(CreateView):
     model = Mailling
-    fields = ('start_to_send', 'stop_to_send', 'periodicity', 'is_active', 'client', 'message', 'user',)
+    form_class = MaillingForm
+    # fields = ('start_to_send', 'stop_to_send', 'periodicity', 'is_active', 'client', 'message', 'user',)
     permission_required = 'main:mailling_list'
 
 
@@ -74,8 +80,10 @@ class MaillingCreateView(CreateView):
 
 class MaillingUpdateView(UpdateView):
     model = Mailling
-    fields = ('start_to_send', 'stop_to_send', 'periodicity', 'is_active', 'client', 'message', 'user',)
+    form_class = MaillingForm
+    # fields = ('start_to_send', 'stop_to_send', 'periodicity', 'is_active', 'client', 'message', 'user',)
     success_url = reverse_lazy('main:mailling_list')
+
 
 class MaillingDeleteView(DeleteView):
     model = Mailling
