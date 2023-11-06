@@ -43,9 +43,6 @@ INSTALLED_APPS = [
     'django_crontab',
 ]
 
-CRONJOBS = [
-    ('*/5 * * * *', 'main.apps.my_scheduled_job')
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,6 +137,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CRONJOBS = [
+    ('*/1 * * * *', 'main.services.send_mailling'),
+]
 
 AUTH_USER_MODEL = 'users.User'
 

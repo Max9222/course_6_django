@@ -5,7 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 
 from main.models import Client, Message, Mailling, Logs
-from main.services import send_message_email
+from main.services import send_mailling
 
 
 class ClientListView(ListView):
@@ -63,7 +63,14 @@ class MaillingDetailView(DetailView):
 class MaillingCreateView(CreateView):
     model = Mailling
     fields = ('start_to_send', 'stop_to_send', 'periodicity', 'is_active', 'client', 'message', 'user',)
-    success_url = reverse_lazy('main:mailling_list')
+    permission_required = 'main:mailling_list'
+
+
+    def form_valid(self, form):
+        obj = form.save()
+        send_mailling(obj)
+        return super().form_valid(form)
+
 
 class MaillingUpdateView(UpdateView):
     model = Mailling
@@ -80,16 +87,5 @@ class LogsListView(ListView):
 
 
 
-    # def get_success_url(self):
-    #     return reverse('main:client_view', args=[self.kwargs.get('pk')])
-    #
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data(**kwargs)
-    #     context_data['client'] = get_object_or_404(Client, pk=self.kwargs.get('pk'))
-    #     return context_data
-    #
-    # def form_valid(self, form):
-    #     obj = form.save()
-    #     send_message_email(obj)
-    #     return super().form_valid(form)
+
 
