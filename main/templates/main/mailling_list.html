@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">{{ title }}</h1>
+</div>
+<div class="container">
+    <div class="container">
+        <div class="col-12 mb-5">
+            <a href="{% url 'main:mailling_create' %}" class="btn btn-outline-success">Добавить Настройку</a>
+        </div>
+        <div class="row text-center">
+            {% for object in object_list %}
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.message.head }}</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title">Время начало отправки {{ object.start_to_send }}</h2>
+                    <h2 class="card-title pricing-card-title">Время окончания отправки {{ object.stop_to_send }}</h2>
+                    <h2 class="card-title pricing-card-title">Периодичность {{ object.periodicity }}</h2>
+                    {% if object.is_active %}
+                    <p class="card-text">Статус: Активна</p>
+                    {% else %}
+                    <p class="card-text">Статус: Неактивна</p>
+                    {% endif %}
+                    <ul class="list-unstyled mt-3 mb-4"></ul>
+                    <a href="{% url 'main:mailling_view' object.pk %}" class="btn btn btn-block btn-outline-primary">Информация</a>
+                    <a href="{% url 'main:mailling_update' object.pk %}"
+                       class="btn btn-outline-success">Редактировать</a>
+                    <a href="{% url 'main:mailling_delete' object.pk %}" class="btn btn-outline-success">Удалить</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

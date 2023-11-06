@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+</div>
+<div class="container">
+    {% for object in object_list %}
+    <div class="container">
+        <div class="col-12 mb-5">
+            <h4 class="my-0 font-weight-normal">{{ object.mailling_id.message.head }}</h4>
+        </div>
+        <div class="row text-center">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <p class="card-text">Время последней рассылки: {{object.last_try}}</p>
+                    <p class="card-text">Статус: {{object.status_try }}</p>
+                    <p class="card-text">Ответ сервера: {{object.answer|default:'Успешно'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

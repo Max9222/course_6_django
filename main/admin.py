@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from main.models import Client
+from main.models import Client, Logs, Message, Mailling
 
+admin.site.register(Client)
+admin.site.register(Logs)
+admin.site.register(Message)
+admin.site.register(Mailling)
 
-@admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name',)
-    list_filter = ('id',)

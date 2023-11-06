@@ -1,28 +1,18 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<div class="card mb-4 box-shadow">
+<div class="card mb-4 box-shadow text-center">
     <div class="card-header">
         <h3 class="card-title">
-            Создание рассылки {{ client }}
+            Сообщение рассылки для
         </h3>
     </div>
     <div class="card-body">
         <form method="post">
             {% csrf_token %}
-            <input type="hidden" name="client_id" value="{{ client.pk }}">
             {{ form.as_p }}
-            <button type="submit" class="btn btn-success">Отправить</button>
+            <button type="submit" class="btn btn-success">Создать</button>
         </form>
-
     </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-
-</main>
-
-
 {% endblock %}
