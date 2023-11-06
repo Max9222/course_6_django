@@ -41,6 +41,7 @@ class Message(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь', **NULLABLE
     )
 
+
     def __str__(self):
         return f'{self.head} {self.body}'
 

@@ -40,6 +40,11 @@ INSTALLED_APPS = [
 
     'main',
     'users',
+    'django_crontab',
+]
+
+CRONJOBS = [
+    ('*/5 * * * *', 'main.apps.my_scheduled_job')
 ]
 
 MIDDLEWARE = [
@@ -111,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru' # 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
