@@ -17,15 +17,23 @@
 </head>
 
 <body>
-
 <div class="d-flex flex-column flex-md-row align-items-center p-4 px-md-5 mb-4 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Косметолог СПб</h5>
     <nav class="col-sm-5 offset-md-5 py-4">
+        <a href="{% url 'main:main' %}" class="btn btn-outline-success">Главная</a>
         <a href="{% url 'main:client_list' %}" class="btn btn-outline-success">Клиенты</a>
         <a href="{% url 'main:message_list' %}" class="btn btn-outline-success">Сообщения рассылки</a>
         <a href="{% url 'main:mailling_list' %}" class="btn btn-outline-success">Настройки рассылки</a>
         <a href="{% url 'main:logs_list' %}" class="btn btn-outline-success">Логи рассылки</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'users:profile' %}" type="button" class="btn btn-outline-info">Профиль</a>
+            <a href="{% url 'users:logout' %}" type="button" class="btn btn-outline-info">Выход</a>
+        {% else %}
+            <a href="{% url 'users:login' %}" type="button" class="btn btn-outline-info">Вход</a>
+            <a href="{% url 'users:register' %}" type="button" class="btn btn-outline-info">Регистрация</a>
+        {% endif %}
     </nav>
+
     <!--    <a class="btn btn-outline-primary" href="#">Sign up</a>-->
 </div>
 {% block content %}

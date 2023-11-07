@@ -1,5 +1,5 @@
 
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse, reverse_lazy
 
 from django.shortcuts import render, get_object_or_404
@@ -7,6 +7,15 @@ from django.shortcuts import render, get_object_or_404
 from main.forms import ClientForm, MessageForm, MaillingForm
 from main.models import Client, Message, Mailling, Logs
 from main.services import send_mailling
+
+class MainView(TemplateView):
+    template_name = 'main/main.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Главная'
+
+        return context_data
 
 
 class ClientListView(ListView):
