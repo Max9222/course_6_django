@@ -3,12 +3,14 @@ from django.urls import path
 from main.apps import MainConfig
 from main.views import ClientListView, ClientCreateView, ClientDetailView, ClientUpdateView, ClientDeleteView, \
     MessageCreateView, MessageListView, MessageDetailView, MessageUpdateView, MessageDeleteView, MaillingListView, \
-    MaillingCreateView, MaillingDetailView, MaillingUpdateView, MaillingDeleteView, LogsListView
+    MaillingCreateView, MaillingDetailView, MaillingUpdateView, MaillingDeleteView, LogsListView, MainView
 
 app_name = MainConfig.name
 
 urlpatterns = [
-    path('', ClientListView.as_view(), name='client_list'),   # Просмотр всех
+    path('', (MainView.as_view()), name='main'),
+
+    path('client/', ClientListView.as_view(), name='client_list'),   # Просмотр всех
     path('client/create/', ClientCreateView.as_view(), name='client_create'),   # Создание
     path('client/detail/<int:pk>/', ClientDetailView.as_view(), name='client_view'),   # Просмотр одного
     path('client/edit/<int:pk>/', ClientUpdateView.as_view(), name='client_update'),   # Редактирование
