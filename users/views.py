@@ -11,6 +11,9 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, render
 from users.services import send_verify_code, send_password
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+
 
 class LoginView(BaseLoginView):
     template_name = 'users/login.html'
@@ -35,7 +38,7 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     success_url = reverse_lazy('users:profile')
     form_class = UserForm
@@ -43,7 +46,7 @@ class UserUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-
+@login_required
 def verify(request, code):
     try:
         user = User.objects.get(verify_code=code)
@@ -53,7 +56,7 @@ def verify(request, code):
     except User.DoesNotExist:
         return render(request, 'users/verify.html')
 
-
+@login_required
 def gen_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
