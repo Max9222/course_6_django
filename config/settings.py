@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'django_crontab',
+    'blog',
 ]
 
 MIDDLEWARE = [
