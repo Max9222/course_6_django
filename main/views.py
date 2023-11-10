@@ -12,17 +12,27 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class MainView(LoginRequiredMixin, TemplateView):
+
     template_name = 'main/main.html'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['title'] = 'Главная'
+        context_data['count_mail'] = len(Mailling.objects.all())
+        context_data['activ_mail'] = Mailling.objects.filter(is_active=True).count()
+        context_data['unic_clients'] = len(Client.objects.all())
 
         return context_data
 
 
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -39,11 +49,23 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
     permission_required = 'main.client_view'
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
+
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     # fields = ('fio', 'email', 'comment')
     success_url = reverse_lazy('main:client_list')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
 
     def form_valid(self, form):
         self.object = form.save()
@@ -77,6 +99,12 @@ class ClientDeleteView(LoginRequiredMixin, DeleteView):
 class MessageListView(LoginRequiredMixin, ListView):
     model = Message
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Список сообщений'
@@ -103,6 +131,12 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     form_class = MessageForm
     # fields = ('head', 'body')
     success_url = reverse_lazy('main:message_list')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
 
     def form_valid(self, form):
         self.object = form.save()
@@ -141,6 +175,13 @@ class MaillingListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Список рассылок'
         return context
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
+
 
 class MaillingDetailView(LoginRequiredMixin, DetailView):
     model = Mailling

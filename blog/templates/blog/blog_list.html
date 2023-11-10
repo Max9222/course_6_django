@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">{{ title }}</h1>
+</div>
+
+<div class="container">
+    <div class="card-deck mb-3">
+        <div class="container">
+            <div class="col-12 mb-5">
+
+                <a href="{% url 'blog:create_blog' %}" class="btn btn-outline-success">Добавить Блог</a>
+
+            </div>
+            <div class="row text-center">
+                {% for object in object_list %}
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Заголовок: {{ object.title }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title pricing-card-title">{{ object.content }}</h2>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>{{ object.comment }}</li>
+                        </ul>
+
+                        <a href="{% url 'blog:blog_view' object.pk %}" class="btn btn btn-block btn-outline-primary">Информация</a>
+                        {% if perms.catalog.view_product %}
+                        <a href="{% url 'blog:blog_edit' object.pk %}"
+                           class="btn btn-outline-success">Редактировать</a>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                        <a href="{% url 'blog:blog_delete' object.pk %}" class="btn btn-outline-success">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

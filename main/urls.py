@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from main.apps import MainConfig
 from main.views import ClientListView, ClientCreateView, ClientDetailView, ClientUpdateView, ClientDeleteView, \
@@ -10,7 +11,7 @@ app_name = MainConfig.name
 urlpatterns = [
     path('', (MainView.as_view()), name='main'),
 
-    path('client/', ClientListView.as_view(), name='client_list'),   # Просмотр всех
+    path('client/', cache_page(60)(ClientListView.as_view()), name='client_list'),   # Просмотр всех
     path('client/create/', ClientCreateView.as_view(), name='client_create'),   # Создание
     path('client/detail/<int:pk>/', ClientDetailView.as_view(), name='client_view'),   # Просмотр одного
     path('client/edit/<int:pk>/', ClientUpdateView.as_view(), name='client_update'),   # Редактирование
