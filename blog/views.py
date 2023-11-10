@@ -10,6 +10,7 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 from blog.forms import BlogForm
 from blog.models import Blog
 
+from main.views import Http404
 
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
@@ -17,13 +18,23 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
 
-
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
 
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
 
 
 class BlogListView(LoginRequiredMixin, ListView):
@@ -52,3 +63,10 @@ class BlogDetailView(LoginRequiredMixin, DetailView):
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:blog_list')
+
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object

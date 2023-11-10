@@ -23,10 +23,15 @@
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>{{ object.comment }}</li>
                         </ul>
+
                         <a href="{% url 'blog:blog_view' object.pk %}" class="btn btn btn-block btn-outline-primary">Информация</a>
+                        {% if perms.catalog.view_product %}
                         <a href="{% url 'blog:blog_edit' object.pk %}"
                            class="btn btn-outline-success">Редактировать</a>
+                        {% endif %}
+                        {% if user.is_superuser %}
                         <a href="{% url 'blog:blog_delete' object.pk %}" class="btn btn-outline-success">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
