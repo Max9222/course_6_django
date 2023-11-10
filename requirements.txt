@@ -6,3 +6,4 @@ ipython
 redis
 python-dotenv
 django-crontab
+redis
