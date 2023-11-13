@@ -3,7 +3,7 @@ import secrets
 
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from users.forms import UserRegisterForm, UserForm
 from users.models import User
@@ -46,7 +46,11 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-@login_required
+class ProfileDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('users:register')
+
+# @login_required
 def verify(request, code):
     try:
         user = User.objects.get(verify_code=code)
@@ -56,7 +60,7 @@ def verify(request, code):
     except User.DoesNotExist:
         return render(request, 'users/verify.html')
 
-@login_required
+# @login_required
 def gen_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
